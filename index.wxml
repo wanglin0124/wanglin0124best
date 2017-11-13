@@ -1,0 +1,2 @@
+<button bindtap='start'>打开蓝牙</button>
+<button bindtap='close'>关闭蓝牙</button>
