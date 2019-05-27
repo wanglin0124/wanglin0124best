@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>高德地图可视化数据api</title>
+  <link rel="stylesheet" href="css/common.css"/>
+  <script src="js/libs/jquery-3.1.1.min.js"></script>
+  <script src="https://webapi.amap.com/loca?v=1.2.0&key=cdd0ea927a9273cf0b01aa27a6aba463"></script>
+</head>
+<body>
+  <div id='map' style='width: 800px; height:400px'></div>
+  <script type="text/javascript">
+    $(function(){
+      var loca = Loca.create('map', {
+        mapStyle: 'amap://styles/grey',
+        zoom: 10,
+        center: [116.46,39.92]
+      });
+      var layer = Loca.visualLayer({
+        eventSupport: true,// selectStyle 配置需要开启 eventSupport: true
+        container: loca,
+        type: 'point',
+        shape: 'image'
+      });
+      // 市县位置数据
+      var data = [
+        { "lnglat": [116.366794, 39.915309], "name": "西城区", "style": 2 }, 
+        { "lnglat": [116.486409, 39.921489], "name": "朝阳区", "style": 2 }, 
+        { "lnglat": [116.286968, 39.863642], "name": "丰台区", "style": 2 }
+      ];
+      // 传入原始数据
+      layer.setData(data, {
+          lnglat: 'lnglat'   // 指定坐标数据的来源，数据格式: 经度在前，维度在后，数组格式。
+      });
+      // 配置样式
+      layer.setOptions({
+        source:'https://p1.ssl.qhimg.com/t0151320b1d0fc50be8.png',
+        style:{
+          size:25
+        }
+      });
+      //地图上显示图片
+      // layer.setOptions({
+      //   source:'https://p1.ssl.qhimg.com/t0151320b1d0fc50be8.png',
+      //   style:{
+      //     size:50
+      //   }
+      // });
+      layer.on('click', function(event) {
+        console.log('Click target: ', event.target) // 触发click事件的元素
+        console.log('Event type: ', event.type) // 事件名称
+        console.log('Raw Event: ', event.originalEvent) // 原始DomEvent事件
+        console.log('Raw data: ', event.rawData) // 触发元素对应的原始数据
+        console.log('Lnglat: ', event.lnglat) // 元素所在经纬度
+    });
+      layer.render();
+
+      loca.on('click', function(event) {
+        console.log('Click target: ', event.target) // 触发click事件的元素
+        console.log('Event type: ', event.type) // 事件名称
+        console.log('Raw Event: ', event.originalEvent) // 原始DomEvent事件
+        console.log('Raw data: ', event.rawData) // 触发元素对应的原始数据
+        console.log('Lnglat: ', event.lnglat) // 元素所在经纬度
+    });
+
+    })
+  </script>
+</body>
+</html>
